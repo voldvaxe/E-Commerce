@@ -45,88 +45,67 @@
     <div style="width:90%" class="mx-auto">
       <v-row class="my-8">
         
-        <v-col cols="3" v-for="(product, i) in products" :key="i" >
-          <v-card v-if="product._id !== null" @click="this.product = product; dialog = !dialog" style="position:relative" height="480px" class="pa-1">
-            <div  :style = "{ width:'100%', height:'300px', background: `url('http://127.0.0.1:4000/${product.images[0]}')` , backgroundSize: `cover`}"  >
-              
+        <v-col cols="12" md="3" v-for="(product, i) in products" :key="i" >
+          <v-card v-if="product._id !== null" style="position:relative" height="460px" class="pa-1 d-flex  align-content-space-between flex-column" >
+            <div>
+              <vueper-slides fixed-height="300px" :touchable="false">
+              <vueper-slide
+                v-for="(slide, i) in product.images"
+                :key="i"
+                :image="URL+ slide">
+              </vueper-slide>
+            </vueper-slides>
+              <div class="my-1 truncate">
+                {{product.name}}
+              </div>
+                    <div style="font-size:20px">
+                    {{product.price}}$
+                  </div>
             </div>
-            <div class="my-2 truncate">
-              {{product.name}}
-            </div>
-
-              <div style="position:absolute; bottom:5px;left:5px" >
-                <strong>
-                  {{product.price}}$
-                </strong>
-                </div>
-
-        <div class="d-flex justify-end">
-        </div>
+            <v-spacer></v-spacer>
+                  <v-row  no-gutters align="end" >
+                    <v-btn block @click="addToCart(product._id)" color="info" >
+                      Add To cart
+                    </v-btn>
+                    </v-row>
+                  
+                    
+                  
           </v-card>
         </v-col>
       </v-row>
     </div>
+      <!------------------------------------------------------>
 
+        <v-snackbar
+      v-model="snackbarSuccess"
+      app
+      vertical
+      location="bottom left"
+      color="success"
+    >
+
+      <p>Added to cart :)</p>
+
+    </v-snackbar>
+
+    <v-snackbar
+      v-model="snackbarError"
+      app
+      vertical
+      location="bottom left"
+      color="error"
+    >
+
+      <p> Please login first :(</p>
+
+    </v-snackbar>
+
+      <!------------------------------------------------------->
 
         <v-btn v-if="loadMore" @click="$store.dispatch('appendProducts', ++pageNumber)" class="d-block mx-auto">
             Load More
         </v-btn>
-
-
-        <!----------------------------------------------------------->
-
-  <div class="text-center">
-    <v-dialog
-      v-model="dialog"
-        width="80%"
-    >
-      <v-card   width="1000px" class="pa-8">
-
-        <v-row>
-          <v-col cols="3">
-            <vueper-slides fixed-height="300px" :touchable="false">
-            <vueper-slide
-              v-for="(slide, i) in product.images"
-              :key="i"
-              :image="'http://127.0.0.1:4000/' + slide">
-            </vueper-slide>
-          </vueper-slides>
-          </v-col>
-          <v-col style="position: relative;" cols="9">
-            <div width="500px">
-              <strong>
-                {{product.name}}
-              </strong>
-            </div>
-            
-            <div>
-              {{product.description}}
-            </div>
-            <div>
-              <strong>
-                {{product.price}}$
-              </strong>
-            </div>
-            <div style="position:absolute; bottom:-5px;right:5px">
-            <v-btn variant="outlined" @click="dialog = false" color="error" class="mr-2">
-              Close
-            </v-btn>
-            <v-btn @click="addToCart(product._id)" color="info" >
-              Add To cart
-            </v-btn>
-            </div>
-            
-          </v-col>
-        </v-row>
-
-        
-      </v-card>
-    </v-dialog>
-  </div>
-
-
-
-        <!----------------------------------------------------------->
 
 
           <Footer class="mt-8"/>
@@ -180,23 +159,30 @@ export default {
       regex: '',
       searchString: '',
       pageNumber: 1,
-      dialog: false,
-      product: {},
       numberRules: [
         
         v => {
           return !isNaN(v) || 'the value must be a number'
           }
       ],
+      snackbarSuccess: false,
+      snackbarError: false,
+      URL : import.meta.env.VITE_APP_BASE_URL,
   }),
   methods: {
     async addToCart(id){
-      await axios.post('/api/product/' + id, {quantity :1 }, {
-        headers: {
-          'Authorization' : 'Bearer ' + store.state.token
-        }
-      })
-      this.dialog = false;
+      const firstLogin = localStorage.getItem('firstLogin')
+      if(firstLogin){
+        await axios.post('/api/product/' + id, {quantity :1 }, {
+          headers: {
+            'Authorization' : 'Bearer ' + store.state.token
+          }
+          
+        })
+        this.snackbarSuccess=true;
+      }else{
+        this.snackbarError=true;
+      }
     }
   },
 
@@ -220,7 +206,7 @@ export default {
 .truncate {
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

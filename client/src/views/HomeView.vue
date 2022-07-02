@@ -3,9 +3,9 @@
   <IntroCarousel class="my-8"/>
   <div class="card" >
       <v-row>
-          <v-col cols="3"  v-for="(category, i) in categories" :key="i" class=" ma-0">
+          <v-col cols="12" md="3" v-for="(category, i) in categories" :key="i" class=" ma-0">
             <v-card  @click="cardClick(category)"  >
-                  <div :style="{ width:'100%' ,height:'400px', background: `url('http://127.0.0.1:4000/${category.image}')`, backgroundSize: `cover`, backgroundPosition: 'center center' }">
+                  <div :style="{ width:'100%' ,height:'400px', background: `url('${URL}${category.image}')`, backgroundSize: `cover`, backgroundPosition: 'center center' }">
                   </div>
                   <div class="text">{{category.name}}</div>
             </v-card>
@@ -38,7 +38,10 @@ export default defineComponent({
     cardClick:function (category){
       this.$router.push({ name: 'products', params: { id: category._id }}, );
     }
-  }
+  },
+  data: ()=>({
+    URL : import.meta.env.VITE_APP_BASE_URL,
+  })
 });
 </script>
 

@@ -5,11 +5,11 @@
         > 
             <v-row>
 
-                <v-col>
-                    <div class = 'text-h3 ml-4 mb-2'>
-                        Sign In
-                        </div>
-                    <v-form
+                <v-col cols="12" md="6">
+            <div class = 'text-h3 ml-4 mb-2'>
+                Sign In
+            </div>
+  <v-form
     ref="form"
     v-model="valid"
     lazy-validation
@@ -43,8 +43,8 @@
   </v-form>
                 </v-col>
                 
-                <v-col>
-                    <img src="../assets/1.svg" >
+                <v-col cols="12" md="6">
+                    <img  src="../assets/1.svg" >
                     <div align="center" class = 'mt-4'>
                         <router-link :to="{name: 'signUp'}">Create an Account</router-link>
                         </div>
@@ -88,3 +88,11 @@ import axios from 'axios';
     },
     }
 </script>
+
+<style scoped>
+  @media screen and (max-width: 610px) {
+    img{
+      display: none;
+    }
+  }
+</style>

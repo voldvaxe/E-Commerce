@@ -1,9 +1,9 @@
 <template>
     <div style="width:90%" class="mx-auto">
       <v-row class="my-8">
-        <v-col cols="3" v-for="(product, i) in cart" :key="i">
+        <v-col cols="12" md="3" v-for="(product, i) in cart" :key="i">
           <v-card  style="position:relative" height="480px" class="pa-1">
-            <div  :style = "{ width:'100%', height:'300px', background: `url('http://127.0.0.1:4000/${product.product.images[0]}')` , backgroundSize: `cover`}"  >
+            <div  :style = "{ width:'100%', height:'300px', background: `url('${URL}${product.product.images[0]}')` , backgroundSize: `cover`}"  >
               
             </div>
             <div class="my-2 truncate">
@@ -67,6 +67,7 @@ export default {
     },
     data: ()=>({
         cart: {},
+        URL : import.meta.env.VITE_APP_BASE_URL,
     })
 }
 </script>

@@ -26,7 +26,7 @@
       const firstLogin = localStorage.getItem('firstLogin')
       if(firstLogin){
           const refreshToken = async () =>{
-              const res1 = await axios.get('/api/customer/refresh_token', {withCredentials: true})
+              const res1 = await axios.get('api/customer/refresh_token', {withCredentials: true})
               store.commit('setToken',res1.data.accesstoken);
               const res2 = await axios.get('api/customer/getInfo', {
                 headers: {Authorization: 'Bearer '+ this.token}
@@ -39,7 +39,7 @@
           refreshToken()
       }
       const res2 = await axios.get('api/category',  {
-                headers: {Authorization: 'Bearer '  + this.token}
+        headers: {Authorization: 'Bearer '  + this.token}
       });
       store.commit('setCategories', res2.data);
   },

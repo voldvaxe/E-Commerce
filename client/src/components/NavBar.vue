@@ -51,7 +51,7 @@
       <v-card min-width="300">
         <v-list>
           <v-list-item
-            :prepend-avatar="'http://127.0.0.1:4000/' + info.image"
+            :prepend-avatar="URL + info.image"
             :title="info.firstName + ' ' + info.lastName"
             :subtitle="info.email"
           >
@@ -97,8 +97,10 @@ import store from './../store/index'
 import axios from 'axios'
 export default {
     name: 'NavBar',
+    
     data : ()=>({
         menu: false,
+        URL : import.meta.env.VITE_APP_BASE_URL,
     }),
     computed:{
         info(){

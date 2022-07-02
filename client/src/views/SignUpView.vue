@@ -4,7 +4,7 @@
             elevation="4"
         > 
             <v-row>
-                <v-col>
+                <v-col cols="12" md="6">
                     <div class = 'text-h3 ml-4 mb-2'>
                         Sign Up
                         </div>
@@ -73,7 +73,7 @@
     </v-btn>
   </v-form>
                 </v-col>
-                <v-col>
+                <v-col cols="12" md="6">
                     <img src="../assets/1.svg" >
                     <div align="center" class = 'mt-4'>
                         <router-link :to="{name: 'signIn'}">I am already a member</router-link>
@@ -138,3 +138,11 @@
         },
     }
 </script>
+
+<style scoped>
+  @media screen and (max-width: 610px) {
+    img{
+      display: none;
+    }
+  }
+</style>

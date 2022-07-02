@@ -7,7 +7,6 @@ import { loadFonts } from "./plugins/webfontloader";
 import axios from "axios";
 
 loadFonts();
-
-axios.defaults.baseURL = "http://localhost:4000/";
+axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL;
 
 createApp(App).use(router).use(store).use(vuetify).mount("#app");
